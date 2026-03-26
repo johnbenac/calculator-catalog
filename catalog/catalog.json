@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "kind": "ourbox-application-catalog",
+  "catalog_id": "calculator",
+  "catalog_name": "Calculator Catalog",
+  "catalog_description": "Single-app catalog for the OurBox calculator.",
+  "default_app_ids": [
+    "calculator"
+  ],
+  "apps": [
+    {
+      "id": "calculator",
+      "app_uid": "johnbenac/calculator",
+      "display_name": "Calculator",
+      "description": "A simple mobile-first calculator.",
+      "service_name": "calculator",
+      "service_port": 80,
+      "host_template": "calc.{box_host}",
+      "path": "/",
+      "expected_status": 200,
+      "body_marker": "Calculator",
+      "route_description": "calculator-root",
+      "default_backend": false,
+      "image_names": [
+        "calculator"
+      ],
+      "services": [
+        {
+          "name": "calculator",
+          "image": "calculator",
+          "port": 80,
+          "command": [],
+          "args": [],
+          "env": {},
+          "storage": null,
+          "health_path": "/"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+name: Publish Application Catalog Bundle
+
+on:
+  push:
+    branches:
+      - main
+  repository_dispatch:
+    types:
+      - refresh-from-upstream-image-publish
+  workflow_dispatch:
+
+concurrency:
+  group: publish-application-catalog-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oras-project/setup-oras@v1
+      - run: bash bootstrap.sh
+      - name: Login to GHCR
+        run: echo "${GITHUB_TOKEN}" | oras login ghcr.io -u "${GITHUB_ACTOR}" --password-stdin
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: bash scripts/publish-catalog-bundle.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: application-catalog-bundle
+          path: |
+            dist/application-catalog-bundle.tar.gz
+            dist/application-catalog-bundle.tar.gz.sha256
+            dist/catalog.tsv
+            dist/images.lock.json
+            dist/catalog-bundle.publish-record.json

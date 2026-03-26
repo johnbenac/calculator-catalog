@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "profile": "calculator",
+  "images": [
+    {
+      "name": "calculator",
+      "ref": "ghcr.io/johnbenac/calculator-apps/calculator:latest",
+      "used_by": [
+        "calculator"
+      ]
+    }
+  ]
+}
